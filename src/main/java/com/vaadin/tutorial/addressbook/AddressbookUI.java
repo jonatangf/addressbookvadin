@@ -18,6 +18,7 @@ import com.vaadin.ui.Button.ClickListener;
 import com.vaadin.ui.FormLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.HorizontalSplitPanel;
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.Table;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
@@ -67,16 +68,29 @@ public class AddressbookUI extends UI {
         initAddRemoveButtons();
     }
 
+    // https://vaadin.com/book/-/page/layout.tabsheet.html
+    
     /*
      * In this example layouts are programmed in Java. You may choose use a
      * visual editor, CSS or HTML templates for layout instead.
      */
     private void initLayout() {
-
         /* Root of the user interface component tree is set */
-        HorizontalSplitPanel splitPanel = new HorizontalSplitPanel();
-        setContent(splitPanel);
+        TabSheet tabsheet = new TabSheet();
+        tabsheet.setHeight("100%");
+        setContent(tabsheet);
+        
+        VerticalLayout tab1 = new VerticalLayout();
+        tab1.setHeight("100%");
+        VerticalLayout tab2 = new VerticalLayout();        
+        tab2.setHeight("100%");
+        
+        tabsheet.addTab(tab1, "Coches");
+        tabsheet.addTab(tab2, "Consumibles");
 
+        HorizontalSplitPanel splitPanel = new HorizontalSplitPanel();
+        tab1.addComponent(splitPanel);
+        
         /* Build the component tree */
         VerticalLayout leftLayout = new VerticalLayout();
         splitPanel.addComponent(leftLayout);
