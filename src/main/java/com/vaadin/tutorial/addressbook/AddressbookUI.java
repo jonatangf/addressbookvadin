@@ -24,17 +24,10 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 
-/* 
- * UI class is the starting point for your app. You may deploy it with VaadinServlet
- * or VaadinPortlet by giving your UI class name a parameter. When you browse to your
- * app a web page showing your UI is automatically generated. Or you may choose to 
- * embed your UI to an existing web page. 
- */
 @Title("Addressbook")
 @Theme("valo")
 public class AddressbookUI extends UI {
 
-    /* User interface components are stored in session. */
     private Table contactList = new Table();
     private TextField searchField = new TextField();
     private Button addNewContactButton = new Button("New");
@@ -49,17 +42,8 @@ public class AddressbookUI extends UI {
         COMPANY, "Mobile Phone", "Work Phone", "Home Phone", "Work Email",
         "Home Email", "Street", "City", "Zip", "State", "Country"};
 
-    /*
-     * Any component can be bound to an external data source. This example uses
-     * just a dummy in-memory list, but there are many more practical
-     * implementations.
-     */
     IndexedContainer contactContainer = createDummyDatasource();
 
-    /*
-     * After UI class is created, init() is executed. You should build and wire
-     * up your user interface here.
-     */
     protected void init(VaadinRequest request) {
         initLayout();
         initContactList();
@@ -70,12 +54,7 @@ public class AddressbookUI extends UI {
 
     // https://vaadin.com/book/-/page/layout.tabsheet.html
     
-    /*
-     * In this example layouts are programmed in Java. You may choose use a
-     * visual editor, CSS or HTML templates for layout instead.
-     */
     private void initLayout() {
-        /* Root of the user interface component tree is set */
         TabSheet tabsheet = new TabSheet();
         tabsheet.setHeight("100%");
         setContent(tabsheet);
@@ -91,7 +70,6 @@ public class AddressbookUI extends UI {
         HorizontalSplitPanel splitPanel = new HorizontalSplitPanel();
         tab1.addComponent(splitPanel);
         
-        /* Build the component tree */
         VerticalLayout leftLayout = new VerticalLayout();
         splitPanel.addComponent(leftLayout);
         splitPanel.addComponent(editorLayout);
@@ -101,52 +79,27 @@ public class AddressbookUI extends UI {
         bottomLeftLayout.addComponent(searchField);
         bottomLeftLayout.addComponent(addNewContactButton);
 
-        /* Set the contents in the left of the split panel to use all the space */
         leftLayout.setSizeFull();
 
-        /*
-         * On the left side, expand the size of the contactList so that it uses
-         * all the space left after from bottomLeftLayout
-         */
         leftLayout.setExpandRatio(contactList, 1);
         contactList.setSizeFull();
 
-        /*
-         * In the bottomLeftLayout, searchField takes all the width there is
-         * after adding addNewContactButton. The height of the layout is defined
-         * by the tallest component.
-         */
         bottomLeftLayout.setWidth("100%");
         searchField.setWidth("100%");
         bottomLeftLayout.setExpandRatio(searchField, 1);
 
-        /* Put a little margin around the fields in the right side editor */
         editorLayout.setMargin(true);
         editorLayout.setVisible(false);
     }
 
     private void initEditor() {
-
         editorLayout.addComponent(removeContactButton);
-
-        /* User interface can be created dynamically to reflect underlying data. */
         for (String fieldName : fieldNames) {
             TextField field = new TextField(fieldName);
             editorLayout.addComponent(field);
             field.setWidth("100%");
-
-            /*
-             * We use a FieldGroup to connect multiple components to a data
-             * source at once.
-             */
             editorFields.bind(field, fieldName);
         }
-
-        /*
-         * Data can be buffered in the user interface. When doing so, commit()
-         * writes the changes to the data source. Here we choose to write the
-         * changes automatically without calling commit().
-         */
         editorFields.setBuffered(false);
     }
 
