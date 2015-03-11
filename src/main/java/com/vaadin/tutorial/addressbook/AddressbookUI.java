@@ -53,23 +53,22 @@ public class AddressbookUI extends UI {
     }
 
     // https://vaadin.com/book/-/page/layout.tabsheet.html
-    
     private void initLayout() {
         TabSheet tabsheet = new TabSheet();
         tabsheet.setHeight("100%");
         setContent(tabsheet);
-        
+
         VerticalLayout tab1 = new VerticalLayout();
         tab1.setHeight("100%");
-        VerticalLayout tab2 = new VerticalLayout();        
+        VerticalLayout tab2 = new VerticalLayout();
         tab2.setHeight("100%");
-        
+
         tabsheet.addTab(tab1, "Coches");
         tabsheet.addTab(tab2, "Consumibles");
 
         HorizontalSplitPanel splitPanel = new HorizontalSplitPanel();
         tab1.addComponent(splitPanel);
-        
+
         VerticalLayout leftLayout = new VerticalLayout();
         splitPanel.addComponent(leftLayout);
         splitPanel.addComponent(editorLayout);
@@ -104,45 +103,17 @@ public class AddressbookUI extends UI {
     }
 
     private void initSearch() {
-
-        /*
-         * We want to show a subtle prompt in the search field. We could also
-         * set a caption that would be shown above the field or description to
-         * be shown in a tooltip.
-         */
         searchField.setInputPrompt("Search contacts");
-
-        /*
-         * Granularity for sending events over the wire can be controlled. By
-         * default simple changes like writing a text in TextField are sent to
-         * server with the next Ajax call. You can set your component to be
-         * immediate to send the changes to server immediately after focus
-         * leaves the field. Here we choose to send the text over the wire as
-         * soon as user stops writing for a moment.
-         */
         searchField.setTextChangeEventMode(TextChangeEventMode.LAZY);
-
-        /*
-         * When the event happens, we handle it in the anonymous inner class.
-         * You may choose to use separate controllers (in MVC) or presenters (in
-         * MVP) instead. In the end, the preferred application architecture is
-         * up to you.
-         */
         searchField.addTextChangeListener(new TextChangeListener() {
+            @Override
             public void textChange(final TextChangeEvent event) {
-
-                /* Reset the filter for the contactContainer. */
                 contactContainer.removeAllContainerFilters();
-                contactContainer.addContainerFilter(new ContactFilter(event
-                        .getText()));
+                contactContainer.addContainerFilter(new ContactFilter(event.getText()));
             }
         });
     }
 
-    /*
-     * A custom filter for searching names and companies in the
-     * contactContainer.
-     */
     private class ContactFilter implements Filter {
 
         private String needle;
